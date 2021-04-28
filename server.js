@@ -99,6 +99,7 @@ app.listen(port, () => {
     console.log(`Serve at http://localhost:${port}`);
 });
 
+//xablau
 /* a
 app.get('/api/script/2', expressAsyncHandler(async (req, res) => {
     const [results, metadata] = await sequelize.query("SELECT * FROM matches INNER JOIN pstats ON matches.id = pstats.matchId");
