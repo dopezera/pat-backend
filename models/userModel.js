@@ -27,9 +27,13 @@ const User = sequelize.define('users', {
         type: Sequelize.FLOAT,
         defaultValue: 0
     },
-    premium: {
+    isAdmin: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
+    },
+    plan: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
     }
 });
 

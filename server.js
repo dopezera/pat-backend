@@ -93,7 +93,7 @@ app.post('/api/user/create', expressAsyncHandler(async (req, res) => {
 })
 );
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 80;
 
 app.listen(port, () => {
     console.log(`Serve at http://localhost:${port}`);
