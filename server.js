@@ -5,8 +5,6 @@ import bodyParser from 'body-parser';
 import sequelize from './db.js';
 
 import User from './models/userModel.js';
-import Match from './models/matchModel.js';
-import Pstats from './models/pstatsModel.js';
 
 import expressAsyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
@@ -96,7 +94,7 @@ app.post('/api/user/create', expressAsyncHandler(async (req, res) => {
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-    console.log(`Serve at http://0.0.0.0:${port}`);
+    console.log(`Serve at http://localhost:${port}`);
 });
 
 //xablau
