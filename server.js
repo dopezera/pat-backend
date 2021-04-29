@@ -10,13 +10,15 @@ import expressAsyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
 import { generateToken } from './utils.js';
 
+import cors from 'cors';
+
 dotenv.config();
 //ainda nao adicionei a .env ao .gitignore como deve ser
 const app = express();
 
 app.use(express.json()); //allow json in the body of requests (signin backend in basir's video)
 app.use(express.urlencoded({ extended: true })); //with this 2 middleware all requests that contain data will translate to req.body
-
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/matches', expressAsyncHandler(async (req, res) => {
