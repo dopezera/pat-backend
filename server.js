@@ -13,10 +13,9 @@ import { generateToken } from './utils.js';
 import cors from 'cors';
 
 dotenv.config();
-//ainda nao adicionei a .env ao .gitignore como deve ser
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
 app.use(express.json()); //allow json in the body of requests (signin backend in basir's video)
 app.use(express.urlencoded({ extended: true })); //with this 2 middleware all requests that contain data will translate to req.body
 app.use(bodyParser.json());
