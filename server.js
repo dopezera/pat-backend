@@ -83,12 +83,43 @@ app.post('/api/user/create', expressAsyncHandler(async (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8)
     })
-    const createdUser = await user.save();
-    res.send({
-        id: createdUser.id,
-        username: createdUser.username,
-        token: generateToken(createdUser)
-    });
+
+    console.log(user.steamid);
+    const userInDb = await User.findOne({ where: { steamid: user.steamid } }); //verifico se esse usuario ja jogou no server
+
+    console.log(userInDb); //debug
+    
+    if (userInDb != null) { //se ja jogou
+        if (userInDb.email != null) { //verifico se o usuario ja tem e-mail associado 
+            res.send({ error: 'esse bicho ja ta cadastrado'}); //se sim, eu sei que ele já se cadastrou além de jogar
+        }
+        else { //se ele ja jogou mas ainda nao tem cadastro, eu dou update no usuario dele completando o cadastro
+            const updatedUser = await User.update({
+                username: user.username,
+                email: user.email,
+                password: user.password
+            },
+            {   
+                where: {
+                    steamid: user.steamid
+                }
+            });
+            res.send({
+                id: updatedUser.id,
+                username: updatedUser.username,
+                token: generateToken(updatedUser)
+            })
+        }
+    }
+
+    else {
+        const createdUser = await user.save();
+        res.send({
+            id: createdUser.id,
+            username: createdUser.username,
+            token: generateToken(createdUser)
+        });
+    }
 })
 );
 
