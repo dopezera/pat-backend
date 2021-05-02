@@ -86,12 +86,13 @@ app.post('/api/user/create', expressAsyncHandler(async (req, res) => {
 
     console.log(user.steamid);
     const userInDb = await User.findOne({ where: { steamid: user.steamid } }); //verifico se esse usuario ja jogou no server
-
-    console.log(userInDb); //debug
     
     if (userInDb != null) { //se ja jogou
         if (userInDb.email != null) { //verifico se o usuario ja tem e-mail associado 
-            res.send({ error: 'esse bicho ja ta cadastrado'}); //se sim, eu sei que ele já se cadastrou além de jogar
+            throw new error({
+                message: 'Atenção: Você já fez cadastro antes. Faça login.'
+            });
+            //res.send({ error: 'esse bicho ja ta cadastrado'}); //se sim, eu sei que ele já se cadastrou além de jogar
         }
         else { //se ele ja jogou mas ainda nao tem cadastro, eu dou update no usuario dele completando o cadastro
             const updatedUser = await User.update({
