@@ -11,6 +11,7 @@ import bcrypt from 'bcryptjs';
 import { generateToken } from './utils.js';
 
 import cors from 'cors';
+import Checkin from './models/checkinModel.js';
 
 dotenv.config();
 const app = express();
@@ -59,6 +60,28 @@ app.get('/api/users', expressAsyncHandler(async (req, res) => {
 //ja consigo fazer um post pedindo login de boa só que agora preciso testar com um user que de fato tem senha criptografada
 //proximos passos: 1 - inserir users direto no banco 2 - rodar consulta pra ver se bate o ok de login retornando token
 //com isso feito: concluir tela de cadastro de usuário e montar tela de login
+
+
+
+app.post('/api/user/checkin', expressAsyncHandler(async (req,res) => {
+    const checkin = new Checkin({
+        eventId: 1,
+        userId: req.body.userid,
+        username: req.body.username,
+        userlvl: req.body.userlvl
+    })
+
+    const createdCheckin = await checkin.save();
+
+    res.send({
+        id: createdCheckin.id,
+        eventid: createdCheckin.eventid,
+        userid: createdCheckin.userid,
+        username: createdCheckin.username,
+        userlvl: createdCheckin.userlvl,
+    });
+  
+}))
 
 app.post('/api/user/signin', expressAsyncHandler(async (req,res) => {
     const user = await User.findOne({ where: { email: req.body.email } });
