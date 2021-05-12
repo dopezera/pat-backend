@@ -16,7 +16,8 @@ import Checkin from './models/checkinModel.js';
 dotenv.config();
 const app = express();
 
-app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
+//app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
+app.use(cors());
 app.use(express.json()); //allow json in the body of requests (signin backend in basir's video)
 app.use(express.urlencoded({ extended: true })); //with this 2 middleware all requests that contain data will translate to req.body
 app.use(bodyParser.json());
@@ -66,11 +67,11 @@ app.get('/api/users', expressAsyncHandler(async (req, res) => {
 app.post('/api/user/checkin', expressAsyncHandler(async (req,res) => {
     const checkin = new Checkin({
         eventId: 1,
-        userId: req.body.userid,
+        userId: req.body.userId,
         username: req.body.username,
         userlvl: req.body.userlvl
     })
-
+    
     const createdCheckin = await checkin.save();
 
     res.send({
