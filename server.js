@@ -16,8 +16,8 @@ import Checkin from './models/checkinModel.js';
 dotenv.config();
 const app = express();
 
-//app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
-app.use(cors());
+app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
+//app.use(cors());
 app.use(express.json()); //allow json in the body of requests (signin backend in basir's video)
 app.use(express.urlencoded({ extended: true })); //with this 2 middleware all requests that contain data will translate to req.body
 app.use(bodyParser.json());
@@ -62,7 +62,13 @@ app.get('/api/users', expressAsyncHandler(async (req, res) => {
 //proximos passos: 1 - inserir users direto no banco 2 - rodar consulta pra ver se bate o ok de login retornando token
 //com isso feito: concluir tela de cadastro de usuário e montar tela de login
 
-
+app.get('/api/users/checkedin', expressAsyncHandler(async (req, res) => {
+    const users = await Checkin.findAll({
+        attributes: ['eventId', 'userId','username','userlvl','createdAt']
+    });
+    res.send(users);
+})
+);
 
 app.post('/api/user/checkin', expressAsyncHandler(async (req,res) => {
     const checkin = new Checkin({
@@ -71,7 +77,7 @@ app.post('/api/user/checkin', expressAsyncHandler(async (req,res) => {
         username: req.body.username,
         userlvl: req.body.userlvl
     })
-    
+
     const createdCheckin = await checkin.save();
 
     res.send({
