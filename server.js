@@ -1,6 +1,9 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
+import jwt from 'jsonwebtoken';
+import passport from 'passport';
+import path from 'path';
 
 import sequelize from './db.js';
 
@@ -16,8 +19,8 @@ import Checkin from './models/checkinModel.js';
 dotenv.config();
 const app = express();
 
-app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
-//app.use(cors());
+//app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
+app.use(cors());
 app.use(express.json()); //allow json in the body of requests (signin backend in basir's video)
 app.use(express.urlencoded({ extended: true })); //with this 2 middleware all requests that contain data will translate to req.body
 app.use(bodyParser.json());
@@ -58,10 +61,6 @@ app.get('/api/users', expressAsyncHandler(async (req, res) => {
 })
 );
 
-//ja consigo fazer um post pedindo login de boa só que agora preciso testar com um user que de fato tem senha criptografada
-//proximos passos: 1 - inserir users direto no banco 2 - rodar consulta pra ver se bate o ok de login retornando token
-//com isso feito: concluir tela de cadastro de usuário e montar tela de login
-
 app.get('/api/users/checkedin', expressAsyncHandler(async (req, res) => {
     const users = await Checkin.findAll({
         attributes: ['eventId', 'userId','username','userlvl','createdAt']
@@ -91,17 +90,15 @@ app.post('/api/user/checkin', expressAsyncHandler(async (req,res) => {
 }))
 
 app.post('/api/user/signin', expressAsyncHandler(async (req,res) => {
-    const user = await User.findOne({ where: { email: req.body.email } });
+    const user = await User.findOne({ where: { steamid: req.body.steamid } });
     if(user) {
-        if(bcrypt.compareSync(req.body.password, user.password)) {
-            res.send({
-                id: user.id,
-                username: user.username,
-                lvl: user.impact,
-                token: generateToken(user)
-            });
-            return;
-        }
+        res.send({
+            id: user.id,
+            username: user.username,
+            lvl: user.impact,
+            token: generateToken(user)
+        });
+        return;
     }
     res.status(401).send({message: 'Invalid email or password'});
 }))
@@ -113,8 +110,6 @@ app.post('/api/user/create', expressAsyncHandler(async (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8)
     })
-
-    console.log(user.steamid);
     const userInDb = await User.findOne({ where: { steamid: user.steamid } }); //verifico se esse usuario ja jogou no server
     
     if (userInDb != null) { //se ja jogou
@@ -153,6 +148,44 @@ app.post('/api/user/create', expressAsyncHandler(async (req, res) => {
     }
 })
 );
+
+
+/** BAGUI DA STEAM */
+
+app.set("view engine", "ejs");
+app.set("views","/views");
+
+//require("./config/steam")(app);
+import Testing from './config/steam.js';
+Testing(app);
+
+//app.get("/api/auth/steam", passport.authenticate("steam", { session: false }), res.send('testing'));
+
+app.get("/api/auth/steam", passport.authenticate("steam", { session: false }));
+
+app.get(
+  "/api/auth/steam/return",
+  passport.authenticate("steam", { session: false }),
+  (req, res) => {
+    const token = jwt.sign({ user: req.user }, process.env.SECRET_KEY, {
+      expiresIn: "2h",
+    });
+
+    res.render("authenticated", { //chamo render que por sua vez vai chamar o front
+      userid: req.user.id,
+      username: req.user.username,
+      lvl: req.user.impact,
+      steamid: req.user.steamid,
+      jwtToken: token,
+      clientUrl: process.env.FRONTEND_URL,
+    });
+  },
+);
+
+app.set("view engine", "ejs");
+app.set("views", "./views");
+
+/** */
 
 const port = process.env.PORT || 5000;
 
