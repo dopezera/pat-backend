@@ -3,8 +3,8 @@ import { Strategy } from 'passport-steam';
 import User from '../models/userModel.js';
 
 const strategyOptions = {
-  returnURL: `http://refacttesting.herokuapp.com/api/auth/steam/return`,
-  realm: `http://refacttesting.herokuapp.com/api/`,
+  returnURL: `http://localhost:5000/api/auth/steam/return`,
+  realm: `http://localhost:5000/api/`,
   apiKey: "64E6444F84EAC46E4F893426767A2F33",
 };
 

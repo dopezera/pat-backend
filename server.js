@@ -20,8 +20,7 @@ dotenv.config();
 const app = express();
 
 //app.use(cors({ origin: 'https://mixstats.herokuapp.com', credentials: true}));
-app.use(cors({ origin: 'http://mixstats.herokuapp.com', credentials: true}));
-//app.use(cors());
+app.use(cors());
 app.use(express.json()); //allow json in the body of requests (signin backend in basir's video)
 app.use(express.urlencoded({ extended: true })); //with this 2 middleware all requests that contain data will translate to req.body
 app.use(bodyParser.json());
