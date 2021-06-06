@@ -1,30 +1,31 @@
 const common = {
   PORT: process.env.PORT || 5000,
-  FRONTEND_URL: process.env.FRONTEND_URL,
-  SECRET_KEY: process.env.SECRET_KEY,
-
-  passportOptions: {
-    returnURL: `http://localhost:5000/api/auth/steam/return`,
-    realm: `http://localhost:5000/api/`,
-    apiKey: '64E6444F84EAC46E4F893426767A2F33',
-  },
+  SECRET_KEY: process.env.SECRET_KEY || '1391057e-20e8-4d9d-b384-a0f769ea19b0',
 }
 
 const config = {
   development: {
     ...common,
-  },
+    FRONTEND_URL: 'http://localhost:3000',
+    BACKEND_URL: 'http://localhost:5000',
 
-  test: {
-    ...common,
-  },
-
-  staging: {
-    ...common,
+    passportOptions: {
+      returnURL: `http://localhost:5000/api/auth/steam/return`,
+      realm: `http://localhost:5000/api/`,
+      apiKey: '64E6444F84EAC46E4F893426767A2F33',
+    },
   },
 
   production: {
     ...common,
+    FRONTEND_URL: 'https://mixstats.herokuapp.com',
+    BACKEND_URL: 'https://refacttesting.herokuapp.com',
+
+    passportOptions: {
+      returnURL: `https://refacttesting.herokuapp.com/api/auth/steam/return`,
+      realm: `https://refacttesting.herokuapp.com/api/`,
+      apiKey: '64E6444F84EAC46E4F893426767A2F33',
+    },
   },
 }
 
