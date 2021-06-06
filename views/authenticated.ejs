@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Authenticated</title>
+  </head>
 
-<head>
-  <title>Authenticated</title>
-</head>
+  <body>
+    Authenticated successfully.
 
-<body>
-  Authenticated successfully.
+    <script>
+      window.opener.postMessage(
+        {
+          id: '<%= userid %>',
+          username: '<%= username %>',
+          lvl: '<%= lvl %>',
+          steamid: '<%= steamid %>',
+          token: '<%= jwtToken %>',
+          ok: true,
+        },
+        '<%= clientUrl %>',
+      )
 
-  <script>
-    window.opener.postMessage({
-      id: '<%= userid %>',
-      username: '<%= username %>',
-      lvl: '<%= lvl %>',
-      steamid: '<%= steamid %>',
-      token: '<%= jwtToken %>',
-      ok: true
-    }, '<%= clientUrl %>');
-  </script>
-</body>
-
+      window.close()
+    </script>
+  </body>
 </html>
