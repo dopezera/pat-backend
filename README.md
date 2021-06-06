@@ -1,1 +1,6 @@
-# Backend for MixCSGO
+# MixCSGO backend
+
+```
+npm install
+node server.js
+```
