@@ -18,12 +18,12 @@ const config = {
 
   production: {
     ...common,
-    FRONTEND_URL: 'https://mixstats.herokuapp.com',
-    BACKEND_URL: 'https://refacttesting.herokuapp.com',
+    FRONTEND_URL: 'https://mixcsgo.herokuapp.com',
+    BACKEND_URL: 'https://api-mixcsgo.herokuapp.com',
 
     passportOptions: {
-      returnURL: `https://refacttesting.herokuapp.com/api/auth/steam/return`,
-      realm: `https://refacttesting.herokuapp.com/api/`,
+      returnURL: `https://api-mixcsgo.herokuapp.com/api/auth/steam/return`,
+      realm: `https://api-mixcsgo.herokuapp.com/api/`,
       apiKey: '64E6444F84EAC46E4F893426767A2F33',
     },
   },
