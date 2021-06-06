@@ -1,20 +1,18 @@
-import express from 'express'
-import dotenv from 'dotenv'
+import Checkin from './models/checkinModel.js'
+import User from './models/userModel.js'
+import bcrypt from 'bcryptjs'
 import bodyParser from 'body-parser'
+import config from './config.js'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
+import expressAsyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import path from 'path'
-
 import sequelize from './db.js'
-
-import User from './models/userModel.js'
-
-import expressAsyncHandler from 'express-async-handler'
-import bcrypt from 'bcryptjs'
+import {Strategy} from 'passport-steam'
 import {generateToken} from './utils.js'
-
-import cors from 'cors'
-import Checkin from './models/checkinModel.js'
 
 dotenv.config()
 const app = express()
@@ -175,9 +173,23 @@ app.post(
 app.set('view engine', 'ejs')
 app.set('views', '/views')
 
-//require("./config/steam")(app);
-import Testing from './config/steam.js'
-Testing(app)
+passport.use(
+  new Strategy(config.passportOptions, async (identifier, profile, done) => {
+    profile.identifier = identifier
+    let user = await User.findOne({steamId: profile.id})
+
+    if (!user) {
+      user = await new User({
+        steamid: profile._json.steamid,
+        username: profile._json.personaname,
+      }).save()
+    }
+
+    return done(null, user)
+  }),
+)
+
+app.use(passport.initialize())
 
 //app.get("/api/auth/steam", passport.authenticate("steam", { session: false }), res.send('testing'));
 
@@ -187,7 +199,7 @@ app.get(
   '/api/auth/steam/return',
   passport.authenticate('steam', {session: false}),
   (req, res) => {
-    const token = jwt.sign({user: req.user}, process.env.SECRET_KEY, {
+    const token = jwt.sign({user: req.user}, config.SECRET_KEY, {
       expiresIn: '2h',
     })
 
@@ -198,7 +210,7 @@ app.get(
       lvl: req.user.impact,
       steamid: req.user.steamid,
       jwtToken: token,
-      clientUrl: process.env.FRONTEND_URL,
+      clientUrl: config.FRONTEND_URL,
     })
   },
 )
@@ -206,8 +218,6 @@ app.get(
 app.set('view engine', 'ejs')
 app.set('views', './views')
 
-const port = process.env.PORT || 5000
-
 app.listen(port, () => {
-  console.log(`Serve at http://localhost:${port}`)
+  console.log(`Serve at http://localhost:${config.PORT}`)
 })
