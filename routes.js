@@ -1,4 +1,3 @@
-
 import express from 'express'
 import expressAsyncHandler from 'express-async-handler'
 import passport from 'passport'
@@ -101,6 +100,7 @@ router.post(
 
     const createdCheckin = await checkin.save()
 
+    console.log(`User ${user.username} checked in`)
     res.send({
       id: createdCheckin.id,
       eventid: createdCheckin.eventid,
@@ -116,6 +116,7 @@ router.post(
   expressAsyncHandler(async (req, res) => {
     const user = await User.findOne({where: {steamid: req.body.steamid}})
     if (user) {
+      console.log(`User ${user.username} logged in`)
       res.send({
         id: user.id,
         username: user.username,
@@ -161,6 +162,8 @@ router.post(
             },
           },
         )
+
+        console.log(`User ${user.username} completed registration`)
         res.send({
           id: updatedUser.id,
           username: updatedUser.username,
@@ -188,6 +191,8 @@ router.get(
       expiresIn: '2h',
     })
 
+    console.log(`User ${req.user.username} authenticated with steam`)
+    console.log(`Steam ID : ${req.user.steamid}`)
     res.render('authenticated', {
       //chamo render que por sua vez vai chamar o front
       userid: req.user.id,
