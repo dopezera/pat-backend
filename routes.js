@@ -1,33 +1,16 @@
+import Checkin from './models/checkinModel.js'
+import User from './models/userModel.js'
+import bcrypt from 'bcryptjs'
+import config from './config.js'
 import express from 'express'
 import expressAsyncHandler from 'express-async-handler'
+import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import sequelize from './db.js'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcryptjs'
-import Checkin from './models/checkinModel.js'
-import {generateToken} from './utils.js'
-import User from './models/userModel.js'
-import config from './config.js'
-
 import {Strategy} from 'passport-steam'
+import {generateToken} from './utils.js'
 
 const router = express.Router()
-
-passport.use(
-  new Strategy(config.passportOptions, async (identifier, profile, done) => {
-    profile.identifier = identifier
-    let user = await User.findOne({steamId: profile.id})
-
-    if (!user) {
-      user = await new User({
-        steamid: profile._json.steamid,
-        username: profile._json.personaname,
-      }).save()
-    }
-
-    return done(null, user)
-  }),
-)
 
 router.get('/', (req, res) => {
   res.send('ok')
@@ -100,7 +83,7 @@ router.post(
 
     const createdCheckin = await checkin.save()
 
-    console.log(`User ${user.username} checked in`)
+    console.log(`User ${createdCheckin.username} checked in`)
     res.send({
       id: createdCheckin.id,
       eventid: createdCheckin.eventid,
@@ -203,6 +186,28 @@ router.get(
       clientUrl: config.FRONTEND_URL,
     })
   },
+)
+
+passport.use(
+  new Strategy(config.passportOptions, async (identifier, profile, done) => {
+    profile.identifier = identifier
+
+    let user = await User.findOne({
+      where: {
+        steamid: profile.id,
+      },
+    })
+
+    if (!user) {
+      console.log(`User not found in database, creating a new one`)
+      user = await new User({
+        steamid: profile._json.steamid,
+        username: profile._json.personaname,
+      }).save()
+    }
+
+    return done(null, user)
+  }),
 )
 
 export default router
