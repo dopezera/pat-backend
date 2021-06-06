@@ -10,6 +10,7 @@ import expressAsyncHandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
 import passport from 'passport'
 import path from 'path'
+import routes from './routes.js'
 import sequelize from './db.js'
 import {Strategy} from 'passport-steam'
 import {generateToken} from './utils.js'
@@ -218,6 +219,8 @@ app.get(
 app.set('view engine', 'ejs')
 app.set('views', './views')
 
-app.listen(port, () => {
+app.use(routes)
+
+app.listen(config.PORT, () => {
   console.log(`Serve at http://localhost:${config.PORT}`)
 })
