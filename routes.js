@@ -30,7 +30,7 @@ passport.use(
   }),
 )
 
-router.get('/status', (req, res) => {
+router.get('/', (req, res) => {
   res.send('ok')
 })
 
