@@ -49,7 +49,7 @@ const Pstats = sequelize.define('pstats', {
     }
 });
 
-//Pstats.sync({force: true});
+Pstats.sync({force: true});
 
 export default Pstats;
 

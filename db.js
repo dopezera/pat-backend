@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
-const sequelize = new Sequelize('naO4DU6RTQ', 'naO4DU6RTQ', 'kAVVk1mlPj', {
-    host: 'remotemysql.com',
+const sequelize = new Sequelize('sql10425329', 'sql10425329', 'iWWSmlSZSL', {
+    host: 'sql10.freemysqlhosting.net',
     port: '3306',
     dialect: 'mysql',
     dialectOptions: {

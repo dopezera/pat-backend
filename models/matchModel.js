@@ -18,6 +18,6 @@ const Match = sequelize.define('matches', {
 });
 
 //Pstats.belongsTo(Match); //isso aqui tava on todo tempo tirei bóver
-//Match.sync({force: true});
+Match.sync({force: true});
 
 export default Match;
