@@ -8,7 +8,7 @@ const Checkin = sequelize.define('checkins', {
         references: { model: 'events', key: 'id' }
     },
     userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         references: { model: 'users', key: 'id' }
     },
     username: { 

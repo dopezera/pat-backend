@@ -21,7 +21,8 @@ const Pstats = sequelize.define('pstats', {
         references: { model: 'matches', key: 'id' }
     },
     steamid: { 
-        type: Sequelize.BIGINT
+        type: Sequelize.BIGINT,
+        //references: { model: 'users', key: 'steamid' } -- removido pq estou usando loader com steamids que não existem
     },
     username: { 
         type: Sequelize.STRING
@@ -49,12 +50,12 @@ const Pstats = sequelize.define('pstats', {
     }
 });
 
-Pstats.sync({force: true});
+//Pstats.sync({force: true});
 
 export default Pstats;
 
 
-/*
+/* isso aqui usei nada pra upar db
 Pstats.addHook('afterCreate', 'updateImpact', async (pstats, options) => {
 
     const [user, created] = await User.findOrCreate({

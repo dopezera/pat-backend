@@ -10,7 +10,7 @@ const config = {
     BACKEND_URL: 'http://localhost:5000',
 
     passportOptions: {
-      returnURL: `http://localhost:5000/api/auth/steam/return`,
+      returnURL: `http://localhost:5000/api/users/auth/steam/return`,
       realm: `http://localhost:5000/api/`,
       apiKey: '64E6444F84EAC46E4F893426767A2F33',
     },
@@ -22,7 +22,7 @@ const config = {
     BACKEND_URL: 'https://api-mixcsgo.herokuapp.com',
 
     passportOptions: {
-      returnURL: `https://api-mixcsgo.herokuapp.com/api/auth/steam/return`,
+      returnURL: `https://api-mixcsgo.herokuapp.com/api/users/auth/steam/return`,
       realm: `https://api-mixcsgo.herokuapp.com/api/`,
       apiKey: '64E6444F84EAC46E4F893426767A2F33',
     },

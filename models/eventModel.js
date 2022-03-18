@@ -10,7 +10,7 @@ const Event = sequelize.define('events', {
     },
 });
 
-//Pstats.belongsTo(Match); //isso aqui tava on todo tempo tirei bóver
+//Pstats.belongsTo(Match); //isso aqui tava on todo tempo tirei bóver //nao usei de novo agora voltando a pegar no projeto
 
 //Event.sync({force: true});
 
