@@ -11,7 +11,6 @@ matchRouter.get(
         'SELECT * FROM matches INNER JOIN pstats ON matches.id = pstats.matchId',
       )
       //for each result, get result.matchId then go to match and verify winner then compare winner with pstats.team and set winner
-  
       let obj = {
         match_id: 0,
       }

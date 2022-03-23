@@ -9,6 +9,7 @@ import Checkin from '../models/checkinModel.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
+
 const userRouter = express.Router();
 
 // USER AUTHENTICATION //
@@ -36,6 +37,7 @@ passport.use(
 
 userRouter.get('/auth/steam', passport.authenticate('steam', {session: false}))
 
+//no lugar de (req, res) usar funcao steamCallBack que tá em outro canto
 userRouter.get(
   '/auth/steam/return',
   passport.authenticate('steam', {session: false}),
@@ -62,8 +64,6 @@ userRouter.get(
     })
   },
 )
-
-
 
 
 
