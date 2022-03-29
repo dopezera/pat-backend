@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js"
   },
   "engines": {
@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-jwt": "^6.1.1",
+    "jest": "^27.5.1",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
@@ -32,6 +33,10 @@
     "passport": "^0.4.1",
     "passport-steam": "^1.0.15",
     "path-dirname": "^1.0.2",
-    "sequelize": "^6.6.2"
+    "sequelize": "^6.6.2",
+    "supertest": "^6.2.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11"
   }
 }

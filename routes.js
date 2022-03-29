@@ -1,28 +1,23 @@
-import userRouter from './routers/userRouter.js';
-import eventRouter from './routers/eventRouter.js';
 import express from 'express'
-import sequelize from './db.js'
-import pstatsLoader from './fakedb/pstatsLoader.js';
-
-import getMatches from './controllers/matches.js';
+import {getMatches} from './controllers/MatchControllers.js';
+import getUsers from './controllers/UserControllers.js';
+import {getAuthUser, verifyAuth} from './controllers/AuthControllers.js'
+import passport from 'passport'
+import { createEvent, getEvents } from './controllers/EventControllers.js';
 
 const router = express.Router()
 
-router.get('/api/matches', (req, res) => {
-  getMatches(req, res)
-})
-
-/*
-
-router.use('/api/users', userRouter);
-router.use('/api/events', eventRouter);
-
+//USERS ROUTES
+router.get('/api/users', verifyAuth, getUsers);
+//USER AUTHENTICATION ROUTES
+router.get('/api/users/auth/steam', passport.authenticate('steam', {session: false}));
+router.get('/api/users/auth/steam/return', passport.authenticate('steam', {session: false}), getAuthUser)
+//MATCH ROUTES
+router.get('/api/matches', verifyAuth, getMatches)
+//EVENT ROUTES
+router.get('/api/events', verifyAuth, getEvents)
+router.post('/api/events/create', createEvent)
+//PSATS SIMULATOR ROUTE
+import pstatsLoader from './fakedb/pstatsLoader.js';
 router.use('/api/pstats', pstatsLoader);
-
-router.get('/', (req, res) => {
-  res.send('ok')
-})
-
-*/
-
 export default router
