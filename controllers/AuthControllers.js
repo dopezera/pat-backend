@@ -26,10 +26,23 @@ export function verifyAuth(req, res, next) {
   }
 
   export function isAuth(req, res) {
-    if(req.cookies.token) {
-      return true
+    if(!req.cookies.token) {
+      return res.status(401).send('NÃO AUTORIZADO')
     }
-    return false;
+  
+    jwt.verify(req.cookies.token, config.SECRET_KEY, (err, decoded) => {
+      if (err){
+        console.log(err);
+        req.authenticated = false;
+        req.decoded = null;
+        return res.status(500).send('ERRO')
+    } else {
+        //console.log("Deu certo");
+        req.decoded = decoded;
+        req.authenticated = true;
+        res.send(req.decoded.user)
+    }
+    })
   }
 
   passport.use(
@@ -71,6 +84,8 @@ export function verifyAuth(req, res, next) {
       username: req.user.username,
       lvl: req.user.impact,
       kdr: req.user.kdr,
+      impact: req.user.impact,
+      winPercentage: req.user.winPercentage,
       steamid: req.user.steamid,
       jwtToken: token,
       clientUrl: config.FRONTEND_URL,

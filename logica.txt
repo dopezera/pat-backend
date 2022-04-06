@@ -65,3 +65,12 @@ res = [{
         winner: details.pstats[0].m_winner,
         players_details: details.pstats,
       }]
+
+
+--- testes ---
+
+npm i jest
+npm i supertest
++ instalar babel
+algumacoisa.test.js - naming files
+npm test - depois de botar em scripts no package.json
