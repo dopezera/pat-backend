@@ -11,6 +11,7 @@
   "engines": {
     "node": "14.x"
   },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "keywords": [],
   "author": "",
   "license": "ISC",
