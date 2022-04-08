@@ -32,7 +32,7 @@ const formatMatches = (results) => {
     return matches;
 }
 
-export const getMatches = 
+export const getAllMatches = 
     expressAsyncHandler(async (req, res) => {
         const [results, metadata] = await sequelize.query(
           'SELECT * FROM matches INNER JOIN pstats ON matches.id = pstats.matchId',
@@ -40,4 +40,4 @@ export const getMatches =
         return res.send(formatMatches(results))
       })
 
-export default getMatches;
+export default getAllMatches;

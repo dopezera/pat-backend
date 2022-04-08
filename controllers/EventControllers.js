@@ -21,8 +21,52 @@ export const createEvent = async (req, res) => {
 }
 
 
-export const getEvents = 
+export const getAllEvents = 
     expressAsyncHandler(async (req, res) => {
         const events = await Event.findAll()
         return res.send(events)
       })
+
+
+export const getEvent = 
+  expressAsyncHandler(async (req, res) => {
+    const event = await Event.findOne({
+      where: {
+        id: req.params.id,
+      },
+    })
+    return res.send(event)
+})
+
+export const updateEvent = 
+  expressAsyncHandler(async (req, res) => {
+    const event = await Event.findOne({
+      where: {
+        id: req.params.id,
+      },
+    })
+    if(event) {
+        await event.update({
+          title: req.body.title,
+          description: req.body.description,
+          status: req.body.status
+        })
+        return res.send(event)
+      }
+    return res.status(400).send({message: 'Evento não encontrado'})
+    //tratar situações onde a descrição é grande demais, status inexistente etc
+})
+
+export const deleteEvent = 
+  expressAsyncHandler(async (req, res) => {
+    const event = await Event.findOne({
+      where: {
+        id: req.params.id,
+      },
+    })
+    if (event) {
+      const destroyedEvent = await event.destroy()
+      return res.send(destroyedEvent)
+    }
+    return res.status(400).send({message: 'Evento não encontrado'})
+})
