@@ -1,5 +1,4 @@
 import sequelize from '../db.js'
-import expressAsyncHandler from 'express-async-handler'
 
 const formatMatches = (results) => {
 
@@ -32,12 +31,17 @@ const formatMatches = (results) => {
     return matches;
 }
 
-export const getMatches = 
-    expressAsyncHandler(async (req, res) => {
-        const [results, metadata] = await sequelize.query(
+export const getAllMatches = 
+    (req, res) => {
+        sequelize.query(
           'SELECT * FROM matches INNER JOIN pstats ON matches.id = pstats.matchId',
         )
-        return res.send(formatMatches(results))
-      })
+        .then(([results, metadata]) => {
+            return res.send(formatMatches(results))
+        })
+        .catch(err => {
+            res.status(500).end()
+        })
+      }
 
-export default getMatches;
+export default getAllMatches;

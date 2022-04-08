@@ -1,13 +1,11 @@
 import User from '../models/userModel.js'
-import expressAsyncHandler from 'express-async-handler'
 
-export const getUsers = 
-    expressAsyncHandler(async (req, res) => {
-        const users = await User.findAll({
+export const getAllUsers = 
+    (req, res) => {
+        User.findAll({
           attributes: ['id', 'username', 'kdr', 'winPercentage', 'impact'],
+        }).then(users => {
+          return res.send(users)
         })
-        
-        return res.send(users)
-      })
-
-export default getUsers;
+      }
+export default getAllUsers;
