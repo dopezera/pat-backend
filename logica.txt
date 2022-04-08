@@ -1,4 +1,3 @@
-Controllers: sem uso por enquanto
 Models: modelagem das entidades do BD
 Views: tem apenas uma tela de suporte ao login da steam
 
