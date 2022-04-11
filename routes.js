@@ -1,6 +1,6 @@
 import express from 'express'
 import {getAllMatches} from './controllers/MatchControllers.js'
-import getAllUsers from './controllers/UserControllers.js'
+import {getAllUsers} from './controllers/UserControllers.js'
 import {getAuthUser, isAuth, verifyAuth} from './controllers/AuthControllers.js'
 import passport from 'passport'
 import {

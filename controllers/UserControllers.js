@@ -1,11 +1,11 @@
 import User from '../models/userModel.js'
+import {getUsersInDb} from '../Repository/UserRepo.js'
 
-export const getAllUsers = 
-    (req, res) => {
-        User.findAll({
-          attributes: ['id', 'username', 'kdr', 'winPercentage', 'impact'],
-        }).then(users => {
-          return res.send(users)
-        })
-      }
-export default getAllUsers;
+export const getAllUsers = (req, res) => {
+  getUsersInDb().then(users => {
+    if (!users) {
+      return res.status(404).end()
+    }
+    return res.send(users)
+  })
+}
