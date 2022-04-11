@@ -1,102 +1,72 @@
-import Event from '../models/eventModel.js'
+import {
+  createNewEvent,
+  deleteEventInDb,
+  findEventInDb,
+  getEventsInDb,
+  updateEventInDb,
+} from '../Repository/EventRepo.js'
 
-export const createEvent = 
-  (req, res) => {
-
+export const createEvent = async (req, res) => {
   if (!req.body.description) {
-      return res.status(400).send('Event description must be specified')
-    }
+    return res.status(400).send('Event description must be specified')
+  }
 
   if (!req.body.status) {
     return res.status(400).send('Event status must be specified')
   }
 
-  Event.create({
-      description: req.body.description,
-      status: req.body.status
+  createNewEvent(req.body.description, req.body.status)
+    .then(createdEvent => {
+      res.send(createdEvent.dataValues)
     })
-    .then(event => {
-      return event.save()
-    }).then(createdEvent => {
-      return res.send(createdEvent)
-    })
-    .catch(err => {
-      return res.status(500).end()
-    })
+    .catch(err => res.status(500).send(err))
 }
 
-export const getAllEvents = 
-  (req, res) => {
-    Event.findAll()
+export const getAllEvents = (req, res) => {
+  getEventsInDb()
     .then(events => {
       return res.send(events)
     })
     .catch(err => {
       return res.status(500).end()
     })
-  }
+}
 
+export const getEvent = (req, res) => {
+  findEventInDb(req.params.id)
+    .then(event => {
+      if (!event) {
+        return res.status(404).end()
+      }
+      return res.send(event)
+    })
+    .catch(err => {
+      return res.status(500).end()
+    })
+}
 
-export const getEvent =
-(req, res) => {
-  Event.findOne({
-    where: {
-      id: req.params.id,
-    },
-  })
-  .then(event => {
-    if(!event) {
-      return res.send('Evento não encontrado')
+export const updateEvent = (req, res) => {
+  findEventInDb(req.params.id).then(event => {
+    if (!event) {
+      return res.status(404).end()
     }
-    return res.send(event)
+    updateEventInDb(event, req.body).then(updatedEvent => {
+      return res.send(updatedEvent)
+    })
   })
-  .catch(err => {
-    return res.status(500).end()
-  }) //devo exibir o erro?
 }
 
-export const updateEvent = 
-  (req, res) => {
-    Event.findOne({
-      where: {
-        id: req.params.id,
-      },
-    })
+export const deleteEvent = (req, res) => {
+  findEventInDb(req.params.id)
     .then(event => {
-      if(event) {
-        return event.update({
-          title: req.body.title,
-          description: req.body.description,
-          status: req.body.status
-        })
-        .then(event => {
-          return res.send(event)
-        })
+      if (!event) {
+        return res.status(404).end()
       }
-      return res.send('Evento não encontrado')    
+      deleteEventInDb(event).then(deletedEvent => {
+        return res.send(deletedEvent)
+      })
     })
     .catch(err => {
-      return res.status(500).end()
-    })
-}
-
-export const deleteEvent = 
-  (req, res) => {
-    Event.findOne({
-      where: {
-        id: req.params.id,
-      },
-    })
-    .then(event => {
-      if (event) {
-        return event.destroy()
-      }
-      return res.send('Evento não encontrado')
-    })
-    .then(event => {
-      return res.send(event) //pq quando a promise anterior me retorna res.send('evento nao encontrado') ainda funciona dentro de um res.send?
-    })
-    .catch(err => {
-      return res.status(500).end()
+      res.status(500).end()
     })
 }
