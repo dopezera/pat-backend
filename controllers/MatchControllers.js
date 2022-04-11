@@ -8,5 +8,3 @@ export const getAllMatches = (req, res) => {
     return res.send(matches)
   })
 }
-
-export default getAllMatches
