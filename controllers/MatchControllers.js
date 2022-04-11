@@ -1,4 +1,4 @@
-
+import {getMatchesInDb} from '../Repository/MatchRepo.js'
 
 export const getAllMatches = (req, res) => {
   getMatchesInDb().then(matches => {
