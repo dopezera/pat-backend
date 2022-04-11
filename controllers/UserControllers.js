@@ -1,4 +1,3 @@
-import User from '../models/userModel.js'
 import {getUsersInDb} from '../Repository/UserRepo.js'
 
 export const getAllUsers = (req, res) => {
