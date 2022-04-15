@@ -1,4 +1,4 @@
-import Event from '../models/eventModel.js'
+import Event from '../database/models/eventModel.js'
 
 export const createNewEvent = (description, status) => {
   const createdEvent = Event.create({
