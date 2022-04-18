@@ -1,6 +1,5 @@
 import sequelize from '../../db.js'
 import Sequelize from 'sequelize'
-import Pstats from './pstatsModel.js'
 
 const Match = sequelize.define('matches', {
   id: {
@@ -24,8 +23,5 @@ const Match = sequelize.define('matches', {
   createdAt: Sequelize.DATE,
   updatedAt: Sequelize.DATE,
 })
-
-//Pstats.belongsTo(Match); //isso aqui tava on todo tempo tirei bóver
-//Match.sync({force: true}).then(console.log('addei match'));
 
 export default Match

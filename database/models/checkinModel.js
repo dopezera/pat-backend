@@ -33,6 +33,6 @@ const Checkin = sequelize.define('checkins', {
   updatedAt: Sequelize.DATE,
 })
 
-Checkin.belongsTo(Event) //isso aqui tava on todo tempo tirei bóver
-//Checkin.sync({force: true});
+Checkin.belongsTo(Event)
+
 export default Checkin

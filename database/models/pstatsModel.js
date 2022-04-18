@@ -57,30 +57,4 @@ const Pstats = sequelize.define('pstats', {
   updatedAt: Sequelize.DATE,
 })
 
-//Pstats.sync({force: true});
-
 export default Pstats
-
-/* isso aqui usei nada pra upar db
-Pstats.addHook('afterCreate', 'updateImpact', async (pstats, options) => {
-
-    const [user, created] = await User.findOrCreate({
-        where: { steamid: pstats.steamid },
-        defaults: {
-          steamid: pstats.steamid,
-          username: pstats.username,
-          impact: 0,
-          premium: 0
-        }
-      });
-    
-    const obj = calculatePlayerImpact(user.steamid);
-    console.log(obj);
-
-    user.impact = obj.impact;
-    user.kdr = obj.kdr;
-    user.winPercentage = obj.winPercentage;
-    user.save();
-
-  });
-*/

@@ -45,6 +45,4 @@ const User = sequelize.define('users', {
   updatedAt: Sequelize.DATE,
 })
 
-//User.sync({force: true});
-
 export default User
