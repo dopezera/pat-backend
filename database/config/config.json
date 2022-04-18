@@ -4,6 +4,7 @@
     "password": "apimix",
     "database": "pat-backend-db",
     "host": "localhost",
+    "port": "3308",
     "dialect": "mysql"
   },
   "test": {
