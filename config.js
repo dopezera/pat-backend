@@ -1,6 +1,9 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 const common = {
   PORT: process.env.PORT || 5000,
-  SECRET_KEY: process.env.SECRET_KEY || '1391057e-20e8-4d9d-b384-a0f769ea19b0',
+  SECRET_KEY: process.env.SECRET_KEY,
 }
 
 const config = {
@@ -12,7 +15,7 @@ const config = {
     passportOptions: {
       returnURL: `http://localhost:5000/api/users/auth/steam/return`,
       realm: `http://localhost:5000/api/`,
-      apiKey: '64E6444F84EAC46E4F893426767A2F33',
+      apiKey: process.env.API_KEY,
     },
   },
 
@@ -24,7 +27,7 @@ const config = {
     passportOptions: {
       returnURL: `https://api-mixcsgo.herokuapp.com/api/users/auth/steam/return`,
       realm: `https://api-mixcsgo.herokuapp.com/api/`,
-      apiKey: '64E6444F84EAC46E4F893426767A2F33',
+      apiKey: process.env.API_KEY,
     },
   },
 }

@@ -1,4 +1,4 @@
-import Pstats from './models/pstatsModel.js'
+import Pstats from './database/models/pstatsModel.js'
 
 export const calculatePlayerImpact = steamid => {
   const games_played = Pstats.count({

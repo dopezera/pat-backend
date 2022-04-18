@@ -1,4 +1,4 @@
-import User from '../models/userModel.js'
+import User from '../database/models/userModel.js'
 
 export const getUsersInDb = () => {
   const allUsers = User.findAll({
