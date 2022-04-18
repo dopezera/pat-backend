@@ -37,5 +37,5 @@ app.set('views', './views')
 app.use(routes)
 
 app.listen(config.PORT, () => {
-  console.log(`Serve at http://localhost:${config.PORT}`)
+  console.log(`Serve at ${config.BACKEND_URL}`)
 })
