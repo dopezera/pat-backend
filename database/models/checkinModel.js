@@ -16,7 +16,7 @@ const Checkin = sequelize.define('checkins', {
       key: 'id',
     },
   },
-  userId: {
+  userSteamId: {
     type: Sequelize.BIGINT,
     references: {
       model: 'users',

@@ -6,19 +6,19 @@ module.exports = {
       'Checkins',
       [
         {
-          userid: 2222222222,
+          userSteamId: 2222222222,
           eventid: 1,
           username: 'H4RD',
           userlvl: 10,
         },
         {
-          userid: 7777777777,
+          userSteamId: 7777777777,
           eventid: 1,
           username: 'CH',
           userlvl: 7,
         },
         {
-          userid: 1111111111,
+          userSteamId: 1111111111,
           eventid: 1,
           username: 'Denn1s',
           userlvl: 7,

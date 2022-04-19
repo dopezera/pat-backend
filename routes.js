@@ -8,6 +8,7 @@ import {
   deleteEvent,
   getAllEvents,
   getEvent,
+  getEventCheckins,
   updateEvent,
 } from './controllers/EventControllers.js'
 
@@ -34,6 +35,7 @@ router.post('/api/events/create', verifyAuth, createEvent)
 router.get('/api/events/:id', verifyAuth, getEvent)
 router.post('/api/events/update/:id', verifyAuth, updateEvent)
 router.get('/api/events/delete/:id', verifyAuth, deleteEvent)
+router.get('/api/events/checkins/:id', verifyAuth, getEventCheckins)
 //PSTATS SIMULATOR ROUTE
 import pstatsLoader from './fakedb/pstatsLoader.js'
 router.use('/api/pstats', pstatsLoader)

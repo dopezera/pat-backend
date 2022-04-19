@@ -16,7 +16,7 @@ module.exports = {
           key: 'id',
         },
       },
-      userId: {
+      userSteamId: {
         type: Sequelize.BIGINT,
         references: {
           model: 'users',

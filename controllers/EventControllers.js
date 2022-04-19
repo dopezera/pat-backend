@@ -2,6 +2,7 @@ import {
   createNewEvent,
   deleteEventInDb,
   findEventInDb,
+  getCheckins,
   getEventsInDb,
   updateEventInDb,
 } from '../Repository/EventRepo.js'
@@ -68,5 +69,20 @@ export const deleteEvent = (req, res) => {
     })
     .catch(err => {
       res.status(500).end()
+    })
+}
+
+export const getEventCheckins = (req, res) => {
+  findEventInDb(req.params.id)
+    .then(event => {
+      if (!event) {
+        return res.status(404).end()
+      }
+      getCheckins(event.id).then(checkins => {
+        return res.send(checkins)
+      })
+    })
+    .catch(err => {
+      return res.status(500).send(err.message)
     })
 }

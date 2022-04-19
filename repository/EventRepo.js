@@ -1,4 +1,5 @@
 import Event from '../database/models/eventModel.js'
+import Checkin from '../database/models/checkinModel.js'
 
 export const createNewEvent = (description, status) => {
   const createdEvent = Event.create({
@@ -52,4 +53,15 @@ export const deleteEventInDb = event => {
     return event
   })
   return deletedEvent
+}
+
+export const getCheckins = id => {
+  const myCheckins = Checkin.findAll({
+    where: {
+      eventId: id,
+    },
+  }).then(checkins => {
+    return checkins
+  })
+  return myCheckins
 }
