@@ -5,7 +5,9 @@ import {getAuthUser, isAuth, verifyAuth} from './controllers/AuthControllers.js'
 import passport from 'passport'
 import {
   createEvent,
+  deleteCheckIn,
   deleteEvent,
+  eventCheckIn,
   getAllEvents,
   getEvent,
   getEventCheckins,
@@ -29,13 +31,16 @@ router.get(
 )
 //MATCH ROUTES
 router.get('/api/matches', verifyAuth, getAllMatches)
-//EVENT ROUTES
+//EVENT AND CHECKIN ROUTES
 router.get('/api/events', verifyAuth, getAllEvents)
 router.post('/api/events/create', verifyAuth, createEvent)
 router.get('/api/events/:id', verifyAuth, getEvent)
 router.post('/api/events/update/:id', verifyAuth, updateEvent)
 router.get('/api/events/delete/:id', verifyAuth, deleteEvent)
 router.get('/api/events/checkins/:id', verifyAuth, getEventCheckins)
+router.post('/api/events/checkin/:id', verifyAuth, eventCheckIn)
+router.get('/api/events/checkin/delete/:id', verifyAuth, deleteCheckIn)
+
 //PSTATS SIMULATOR ROUTE
 import pstatsLoader from './fakedb/pstatsLoader.js'
 router.use('/api/pstats', pstatsLoader)

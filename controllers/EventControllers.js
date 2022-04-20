@@ -1,9 +1,13 @@
 import {
+  checkUserIn,
   createNewEvent,
+  deleteCheckinInDb,
   deleteEventInDb,
+  findCheckinInDb,
   findEventInDb,
   getCheckins,
   getEventsInDb,
+  isUserCheckedIn,
   updateEventInDb,
 } from '../Repository/EventRepo.js'
 
@@ -84,5 +88,53 @@ export const getEventCheckins = (req, res) => {
     })
     .catch(err => {
       return res.status(500).send(err.message)
+    })
+}
+
+export const eventCheckIn = (req, res) => {
+  findEventInDb(req.params.id)
+    .then(event => {
+      if (!event) {
+        return res.status(404).end()
+      }
+      isUserCheckedIn(event.dataValues.id, req.decoded.user.steamid).then(
+        userCheckedIn => {
+          if (userCheckedIn) {
+            return res
+              .status(200)
+              .send('Checkin já foi realizado anteriormente')
+          }
+          checkUserIn(event, req.decoded.user).then(checkedInUser => {
+            return res.send(checkedInUser)
+          })
+        }
+      )
+    })
+    .catch(err => {
+      res.status(500).send('erro')
+    })
+}
+
+export const deleteCheckIn = (req, res) => {
+  findCheckinInDb(req.params.id)
+    .then(checkin => {
+      if (!checkin) {
+        return res.status(404).end()
+      }
+      isUserCheckedIn(
+        checkin.dataValues.eventId,
+        req.decoded.user.steamid
+      ).then(userCheckedIn => {
+        if (userCheckedIn) {
+          deleteCheckinInDb(checkin).then(deletedCheckin => {
+            return res.send(deletedCheckin)
+          })
+        } else {
+          return res.status(405).end()
+        }
+      })
+    })
+    .catch(err => {
+      return res.status(500).send('erro')
     })
 }

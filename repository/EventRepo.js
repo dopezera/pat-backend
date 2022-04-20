@@ -65,3 +65,55 @@ export const getCheckins = id => {
   })
   return myCheckins
 }
+
+export const isUserCheckedIn = (eventId, userSteamId) => {
+  const userCheckedIn = Checkin.findOne({
+    where: {
+      eventId: eventId,
+      userSteamId: userSteamId,
+    },
+  }).then(result => {
+    if (result) {
+      return true
+    }
+    return false
+  })
+  return userCheckedIn
+}
+
+export const checkUserIn = (event, user) => {
+  const newCheckin = Checkin.create({
+    eventId: event.id,
+    userSteamId: user.steamid,
+    username: user.username,
+    userlvl: user.impact,
+  })
+    .then(checkin => {
+      return checkin.save()
+    })
+    .catch(err => {
+      return err
+    })
+  return newCheckin
+}
+
+export const findCheckinInDb = id => {
+  const myCheckin = Checkin.findOne({
+    where: {
+      id: id,
+    },
+  }).then(checkin => {
+    if (!checkin) {
+      return null
+    }
+    return checkin
+  })
+  return myCheckin
+}
+
+export const deleteCheckinInDb = checkin => {
+  const deletedCheckin = checkin.destroy().then(checkin => {
+    return checkin
+  })
+  return deletedCheckin
+}
