@@ -1,4 +1,4 @@
-import {getUsersInDb} from '../Repository/UserRepo.js'
+import {getUsersInDb} from '../repository/UserRepo.js'
 
 export const getAllUsers = (req, res) => {
   getUsersInDb().then(users => {

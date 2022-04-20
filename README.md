@@ -1,18 +1,20 @@
 # MixCSGO backend
 
-```
 After cloning the project.
 
 1 - Install all dependencies
+```
 npm i
+```
 
 2- Run project with Nodemon
+```
 npm run dev
+```
 
 Project routes are secured and require you to be authenticated. As I carry out my API tests using Postman and I don't know how to configure the jwt token to be received by it, what I currently do is login through the frontend of the application, get the authentication token in the browser cookies and register in Postman.
 
 You can also navigate using the frontend of the application itself. All API routes are defined in routes.js.
-```
 
 # DATABASE
 
