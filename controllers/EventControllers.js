@@ -9,7 +9,7 @@ import {
   getEventsInDb,
   isUserCheckedIn,
   updateEventInDb,
-} from '../Repository/EventRepo.js'
+} from '../repository/EventRepo.js'
 
 export const createEvent = async (req, res) => {
   if (!req.body.description) {
